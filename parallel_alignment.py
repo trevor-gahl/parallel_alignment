@@ -2,7 +2,7 @@ import threading
 #from array import array
 
 seq1 = "ATAGACGACATGGGGACAGCAT"
-seq2 = "TTTAGCATGCGCATATCAGCAATA"
+seq2 = "TTTAGCATGCGCATATCAGCAA"
 
 #seq1 = 'AGCACACA'
 #seq2 = 'ACACACTA'
@@ -52,22 +52,9 @@ def antidiagonals_indices(scoring_matrix):
     # for
 
 
-if length_one < length_two:
-    score_matrix = createScoreMatrix(length_one + 1, length_two + 1)
-    rowcounter = length_one
-    colcounter = length_two
-    max_d_count = length_two - length_one + 1
-    print(max_d_count)
-    print(rowcounter)
-    print(colcounter)
-else:
-    score_matrix = createScoreMatrix(length_two + 1, length_one + 1)
-    rowcounter = length_two
-    colcounter = length_one
-    max_d_count = length_one - length_two + 1
-    print(rowcounter)
-    print(colcounter)
-    print(max_d_count)
+score_matrix = createScoreMatrix(length_one + 1, length_two + 1)
+rowcounter = length_one + 1
+colcounter = length_two + 1
 
 antidiagonals_indices(score_matrix)
 
