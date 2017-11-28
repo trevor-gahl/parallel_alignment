@@ -29,7 +29,7 @@ def createScoreMatrix(rows, cols):
     return score_matrix
 
 
-def antidiagonals(L):
+def antidiagonals_list_generator(L):
 
     h, w = len(L), len(L[0])
     return [[L[p - q][q]
@@ -40,11 +40,11 @@ def antidiagonals(L):
 def antidiagonals_indices(scoring_matrix):
     # Check diagonal
     global score_index_list
-    adiagonals = antidiagonals(scoring_matrix)
+    antidiagonals = antidiagonals_list_generator(scoring_matrix)
     max_diag = 0
-    for x in range(len(adiagonals)):
-        if len(adiagonals[x]) > max_diag:
-            max_diag = len(adiagonals[x])
+    for x in range(len(antidiagonals)):
+        if len(antidiagonals[x]) > max_diag:
+            max_diag = len(antidiagonals[x])
     print(max_diag)
     row_count = col_count = 1
     score_index_list.append([row_count, col_count])
