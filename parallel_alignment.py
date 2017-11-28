@@ -1,10 +1,75 @@
 import threading
 #from array import array
 
+seq1 = "ATAGACGACATGGGGACAGCAT"
+seq2 = "TTTAGCATGCGCATATCAGCAATA"
+
+#seq1 = 'AGCACACA'
+#seq2 = 'ACACACTA'
+
+match = 2
+other = -1
+maxScore = 0
+maxPosition = (0, 0)
+rowcounter = 0
+colcounter = 0
+length_one = len(seq1)
+length_two = len(seq2)
+max_d_count = 0
+score_index_list = []
+
 
 def worker(num):
-    print '\nWorker: %s' % num
+    #print('\nWorker: %s' % num)
     return
+
+
+def createScoreMatrix(rows, cols):
+    score_matrix = [[0 for col in range(cols)]for row in range(rows)]
+    return score_matrix
+
+
+def antidiagonals(L):
+
+    h, w = len(L), len(L[0])
+    return [[L[p - q][q]
+             for q in range(max(p - h + 1, 0), min(p + 1, w))]
+            for p in range(h + w - 1)]
+
+
+def antidiagonals_indices(scoring_matrix):
+    # Check diagonal
+    global score_index_list
+    adiagonals = antidiagonals(scoring_matrix)
+    max_diag = 0
+    for x in range(len(adiagonals)):
+        if len(adiagonals[x]) > max_diag:
+            max_diag = len(adiagonals[x])
+    print(max_diag)
+    row_count = col_count = 1
+    score_index_list.append([row_count, col_count])
+    print(score_index_list)
+    # for
+
+
+if length_one < length_two:
+    score_matrix = createScoreMatrix(length_one + 1, length_two + 1)
+    rowcounter = length_one
+    colcounter = length_two
+    max_d_count = length_two - length_one + 1
+    print(max_d_count)
+    print(rowcounter)
+    print(colcounter)
+else:
+    score_matrix = createScoreMatrix(length_two + 1, length_one + 1)
+    rowcounter = length_two
+    colcounter = length_one
+    max_d_count = length_one - length_two + 1
+    print(rowcounter)
+    print(colcounter)
+    print(max_d_count)
+
+antidiagonals_indices(score_matrix)
 
 
 '''
@@ -25,14 +90,7 @@ L = [[0,  1,  2],
 '''
 
 
-def antidiagonals(L):
-
-    h, w = len(L), len(L[0])
-    return [[L[p - q][q]
-             for q in range(max(p - h + 1, 0), min(p + 1, w))]
-            for p in range(h + w - 1)]
-
-
+'''
 def createScoreMatrix(rows, cols):
     score_matrix = [[0 for col in range(cols)]for row in range(rows)]
     return score_matrix
@@ -55,10 +113,11 @@ cols = 5
 score_matrix = createScoreMatrix(rows, cols)
 # print score_matrix
 adiagonals = antidiagonals(score_matrix)
-# print len(adiagonals)
+print(adiagonals)
+print(len(adiagonals))
 threads = []
 for x in range(len(adiagonals)):
-    # print len(adiagonals[x])
+    print(len(adiagonals[x]))
     for y in range(len(adiagonals[x])):
         t = threading.Thread(target=worker, args=(y,))
         threads.append(t)
@@ -69,3 +128,4 @@ for i in range(5):
     t = threading.Thread(target=worker, args=(i,))
     threads.append(t)
     t.start()
+'''
