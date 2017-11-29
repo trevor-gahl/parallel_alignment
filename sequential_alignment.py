@@ -63,8 +63,8 @@ def createScoreMatrix(rows, cols):
     global maxScore
     score_matrix = [[0 for col in range(cols)]for row in range(rows)]
 
-    for i in range(1, rows):
-        for j in range(1, cols):
+    for i in range(0, rows):
+        for j in range(0, cols):
             similarity = match if seq1[i - 1] == seq2[j - 1] else other
             diag_score = score_matrix[i - 1][j - 1] + similarity
             up_score = score_matrix[i - 1][j] + other
@@ -118,8 +118,14 @@ def traceback(score_matrix, start_pos):
             move = nextMove(score_matrix, x, y)
     except:
         move = END
-    aligned_seq1.append(seq1[x - 1])
-    aligned_seq2.append(seq1[y - 1])
+    try:
+        aligned_seq1.append(seq1[x - 1])
+    except:
+        aligned_seq1.append(seq1[x])
+    try:
+        aligned_seq2.append(seq1[y - 1])
+    except:
+        aligned_seq2.append(seq1[y])
 
     return ''.join(reversed(aligned_seq1)), ''.join(reversed(aligned_seq2))
 
