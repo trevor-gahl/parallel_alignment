@@ -1,4 +1,6 @@
 import threading
+import time
+#import timeit
 # from array import array
 
 # Test Case 1
@@ -192,7 +194,7 @@ def alignment_string(aligned_seq1, aligned_seq2):
     # Returns the "alignment" string and the alignment characteristics
     return ''.join(alignment_string), idents, gaps, mismatches
 
-
+execution_start = time.time()
 score_matrix = createScoreMatrix(rows, cols)
 antidiagonals_indices(rows, cols)
 
@@ -200,6 +202,7 @@ antidiagonals = antidiagonals_list_generator(score_matrix)
 # print(antidiagonals)
 num_diag = len(antidiagonals)
 offset_counter = 0
+thread_start = time.time()
 for i in range(num_diag):
     #print(i + 1)
     q = len(antidiagonals[i])
@@ -219,6 +222,7 @@ for i in range(num_diag):
     offset_counter = offset_counter + q
 
     # print(x)
+thread_end = time.time()
 
 # for y in range(len(score_matrix)):
     # print(score_matrix[y])
@@ -231,6 +235,9 @@ for i in range(5):
 seq1_aligned, seq2_aligned = traceback(score_matrix, maxPosition)
 assert len(seq1_aligned) == len(seq2_aligned)
 
+execution_end = time.time()
+print("Overall time to execute: {} seconds".format(execution_end - execution_start))
+print("Time to run threads: {} seconds".format(thread_end - thread_start))
 # Pretty print the results. The printing follows the format of BLAST results
 # as closely as possible.
 alignment_str, idents, gaps, mismatches = alignment_string(
