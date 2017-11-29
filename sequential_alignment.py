@@ -7,6 +7,7 @@
 #########################################################################
 
 import sys
+import time
 # Test Case 1
 seq1 = "ATAGACGACATGGGGACAGCATATAGACGACATGGGGACAGCATATAGACGACATGGGGACAGCATATAGACGACATGGGGACAGCATATAGACGACATGGGGACAGCATATAGACGACATGGGGACAGCATATAGACGACATGGGGACAGCATATAGACGACATGGGGACAGCAT"
 seq2 = "TTTAGCATGCGCATATCAGCAATTTAGCATGCGCATATCAGCAATTTAGCATGCGCATATCAGCAATTTAGCATGCGCATATCAGCAATTTAGCATGCGCATATCAGCAATTTAGCATGCGCATATCAGCAATTTAGCATGCGCATATCAGCAATTTAGCATGCGCATATCAGCAA"
@@ -42,13 +43,15 @@ maxPosition = (0, 0)
 
 
 def main():
+    start_time = time.time()
     rows = len(seq1)
     cols = len(seq2)
     score_matrix, start_pos = createScoreMatrix(rows, cols)
     seq1_aligned, seq2_aligned = traceback(score_matrix, start_pos)
     assert len(seq1_aligned) == len(
         seq2_aligned), 'aligned strings are not the same size'
-
+    end_time = time.time()
+    print("Overall time to execute: {} seconds".format(end_time - start_time))
 # Pretty print the results. The printing follows the format of BLAST results
 # as closely as possible.
     alignment_str, idents, gaps, mismatches = alignment_string(
@@ -67,7 +70,6 @@ def main():
         print('Sbjct  {0:<4}  {1}  {2:<4}'.format(
             i + 1, seq2_slice, i + len(seq2_slice)))
         print('\n')
-
 ###############################################
 ## Creates scoring matrix from input strings ##
 ###############################################
@@ -202,13 +204,13 @@ def alignment_string(aligned_seq1, aligned_seq2):
     # Returns the "alignment" string and the alignment characteristics
     return ''.join(alignment_string), idents, gaps, mismatches
 
-
+'''
 def print_matrix(matrix):
     for row in matrix:
         for col in row:
             print '{:4}'.format(col),
         print
-
+'''
 
 if __name__ == '__main__':
     sys.exit(main())
