@@ -28,8 +28,8 @@ maxPosition = (0, 0)
 
 
 def main():
-    rows = len(seq1) + 1
-    cols = len(seq2) + 1
+    rows = len(seq1)
+    cols = len(seq2)
     score_matrix, start_pos = createScoreMatrix(rows, cols)
     seq1_aligned, seq2_aligned = traceback(score_matrix, start_pos)
     assert len(seq1_aligned) == len(
