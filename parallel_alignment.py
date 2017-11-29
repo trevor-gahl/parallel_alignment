@@ -1,8 +1,11 @@
 import threading
 # from array import array
 
-seq1 = "ATAGACGACATGGGGACAGCAT"
-seq2 = "TTTAGCATGCGCATATCAGCAA"
+seq1 = "ATAGACGACATGGGGACAGCATATAGACGACATGGGGACAGCAT"
+seq2 = "TTTAGCATGCGCATATCAGCAATTTAGCATGCGCATATCAGCAA"
+
+#seq1 = "ATAGACG"
+#seq2 = "TTTAGCA"
 
 #seq1 = 'AGC'
 #seq2 = 'ACA'
@@ -58,7 +61,7 @@ def antidiagonals_indices(rows, cols):
         q = i
 
         while(p < rows and q >= 0):
-            print(p, q)
+            #print(p, q)
             temp_list.append([p, q])
             p = p + 1
             q = q - 1
@@ -67,12 +70,12 @@ def antidiagonals_indices(rows, cols):
         p = i + 1
         q = cols - 1
         while(p < rows and q >= 1):
-            print(p, q)
+            #print(p, q)
             temp_list.append([p, q])
             p = p + 1
             q = q - 1
 
-    print(temp_list)
+    # print(temp_list)
 
 
 def traceback(score_matrix, start_pos):
@@ -87,28 +90,35 @@ def traceback(score_matrix, start_pos):
     aligned_seq2 = []
     x, y = start_pos
     move = nextMove(score_matrix, x, y)
-    while move != END:
-        if move == DIAG:
-            aligned_seq1.append(seq1[x - 1])
-            aligned_seq2.append(seq2[y - 1])
-            x -= 1
-            y -= 1
-        elif move == UP:
-            aligned_seq1.append(seq1[x - 1])
-            aligned_seq2.append('-')
-            x -= 1
-        elif move == LEFT:
-            aligned_seq1.append('-')
-            aligned_seq2.append(seq2[y - 1])
-            y -= 1
-        else:
-            move == END
+    try:
+        while move != END:
+            if move == DIAG:
+                aligned_seq1.append(seq1[x - 1])
+                aligned_seq2.append(seq2[y - 1])
+                x -= 1
+                y -= 1
+            elif move == UP:
+                aligned_seq1.append(seq1[x - 1])
+                aligned_seq2.append('-')
+                x -= 1
+            elif move == LEFT:
+                aligned_seq1.append('-')
+                aligned_seq2.append(seq2[y - 1])
+                y -= 1
+            else:
+                move = END
+            move = nextMove(score_matrix, x, y)
+    except:
+        move = END
 
-        move = nextMove(score_matrix, x, y)
-
-    aligned_seq1.append(seq1[x - 1])
-    aligned_seq2.append(seq1[y - 1])
-
+    try:
+        aligned_seq1.append(seq1[x - 1])
+    except:
+        aligned_seq1.append(seq1[x])
+    try:
+        aligned_seq2.append(seq1[y - 1])
+    except:
+        aligned_seq2.append(seq1[y])
     return ''.join(reversed(aligned_seq1)), ''.join(reversed(aligned_seq2))
 
 
@@ -116,7 +126,7 @@ def nextMove(score_matrix, x, y):
 
     # Assign the diagonal score
     diag = score_matrix[x - 1][y - 1]
-    print(diag)
+    # print(diag)
     #diag = score_matrix[x][y]
     # Assign insertion/deletion scores
     up = score_matrix[x - 1][y]
@@ -179,12 +189,12 @@ for i in range(num_diag):
     #print(i + 1)
     q = len(antidiagonals[i])
     x = 0
-    print(q)
+    # print(q)
     while(x < q):
-        print(temp_list[x + offset_counter])
+        #print(temp_list[x + offset_counter])
         r_index = temp_list[x + offset_counter][0]
         c_index = temp_list[x + offset_counter][1]
-        print(r_index, c_index)
+        #print(r_index, c_index)
         x = x + 1
 
         t = threading.Thread(target=score_function, args=(r_index, c_index,))
@@ -195,8 +205,8 @@ for i in range(num_diag):
 
     # print(x)
 
-for y in range(len(score_matrix)):
-    print(score_matrix[y])
+# for y in range(len(score_matrix)):
+    # print(score_matrix[y])
 '''
 for i in range(5):
     t = threading.Thread(target=score_function, args=(i,))
